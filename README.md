@@ -1,6 +1,10 @@
 
 # node-sftp-server
 
+This is a fork of [node-sftp-server](https://www.npmjs.com/package/node-sftp-server) modified to suit my project needs.
+
+---
+
 A simple interface to be able to implement an SFTP Server using Node.js. Based 
 on excellent work by [@mscdex](https://github.com/mscdex) - [ssh2](https://github.com/mscdex/ssh2) and [ssh2-streams](https://github.com/mscdex/ssh2-streams). Without
 which none of this would be possible.
