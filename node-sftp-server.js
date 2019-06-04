@@ -125,16 +125,29 @@ var SFTPServer = (function(superClass) {
   extend(SFTPServer, superClass);
 
   function SFTPServer(options) {
-    // Expose options for the other classes to read.
+    // Expose option for specifying private key file location
     if (!options) options = { privateKeyFile: 'ssh_host_rsa_key' };
     if (typeof options === 'string') options = { privateKeyFile: options }; // Original constructor had just a privateKey string, so this preserves backwards compatibility.
-    if (options.debug) {
+
+    // Create server options object
+    var serverOptions = {
+      hostKeys: [fs.readFileSync(options.privateKeyFile)]
+    };
+
+    // Expose option for user-defined debug implementation
+    if (typeof options.debug === Function) {
+      debug = options.debug;
+    } else if (options.debug) {
       debug = function(msg) { console.log(msg); };
     }
+    
+    // Expose option for user-defined algorithm set
+    if (options.algorithms) {
+      serverOptions.algorithms = options.algorithms;
+    }
+
     SFTPServer.options = options;
-    this.server = new ssh2.Server({
-      hostKeys: [fs.readFileSync(options.privateKeyFile)]
-    }, (function(_this) {
+    this.server = new ssh2.Server(serverOptions, (function(_this) {
       return function(client, info) {
         client.on('error', function(err) {
           debug("SFTP Server: error");
