@@ -135,7 +135,7 @@ var SFTPServer = (function(superClass) {
     };
 
     // Expose option for user-defined debug implementation
-    if (typeof options.debug === Function) {
+    if (typeof options.debug === 'function') {
       debug = options.debug;
     } else if (options.debug) {
       debug = function(msg) { console.log(msg); };
