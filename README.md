@@ -48,6 +48,15 @@ var myserver = new SFTPServer({
 });
 ```
 
+Alternatively you can supply your own debugging handler as a function that takes a single string argument:
+
+```js
+var myserver = new SFTPServer({
+    privateKeyFile: "path_to_private_key_file",
+    debug: (message) => { console.log(message); }
+});
+```
+
 The `debug` option turns on console logging for SSH2 streams so you can see what's going on under the
 hood to help debug authentication problems, or other low level issues you may encounter. 
 
@@ -62,6 +71,18 @@ by passing the `temporaryFileDirectory` to the constructor like this:
 var myserver = new SFTPServer({
     privateKeyFile: "path_to_private_key_file",
     temporaryFileDirectory: "/some/temporary/file/path/here"
+});
+```
+
+### algorithms
+
+The underlying ssh2-streams library has a [default configuration of transport layer algorithms](https://www.npmjs.com/package/ssh2-streams#ssh2stream-methods) that can be overriden.
+Simply pass an object the desired configuration as outlined in the ssh2-stream docs to override.
+
+```js
+var myserver = new SFTPServer({
+    privateKeyFile: "path_to_private_key_file",
+    algorithms: myAlgorithmConfig
 });
 ```
 
